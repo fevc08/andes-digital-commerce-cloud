@@ -9,6 +9,8 @@ cada tipo de dato de ADC.
 
 ## 2. Arquitectura de respaldo seleccionada
 
+![Arquitectura Lección 2 — Backup y Recuperación](../../diagramas/exportados/02-backup.png)
+
 ADC utiliza **AWS Backup** como orquestador centralizado, con dos planes de
 backup independientes, cada uno con su propia frecuencia y retención,
 proporcional a la criticidad del dato que protege:
