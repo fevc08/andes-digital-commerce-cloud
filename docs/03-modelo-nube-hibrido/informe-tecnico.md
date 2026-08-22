@@ -9,6 +9,8 @@ conecta el datacenter on-premise de ADC con la VPC en AWS, y qué límites
 
 ## 2. Mapeo de componentes al modelo híbrido
 
+![Arquitectura Lección 3 — Modelo de Nube Híbrido](../../diagramas/exportados/03-modelo-hibrido.png)
+
 | Componente | Entorno | Gestionado por |
 |---|---|---|
 | ERP (finanzas, compras, inventario contable) | On-premise, Santiago | TI interna de ADC |
