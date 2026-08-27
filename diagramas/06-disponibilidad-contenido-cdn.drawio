@@ -24,7 +24,7 @@
                     <mxGeometry x="240" y="240" width="78" height="78" as="geometry"/>
                 </mxCell>
                 <mxCell id="6" value="&lt;span class=&quot;text-body text-secondary&quot;&gt;Origen - us-east-1&lt;/span&gt;" style="sketch=0;outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;fontSize=12;fontStyle=0;shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_region;strokeColor=#879196;fillColor=none;verticalAlign=top;align=left;spacingLeft=30;fontColor=#879196;dashed=1;" vertex="1" parent="1">
-                    <mxGeometry x="99" y="400" width="360" height="180" as="geometry"/>
+                    <mxGeometry x="90" y="400" width="420" height="200" as="geometry"/>
                 </mxCell>
                 <mxCell id="7" value="&lt;span class=&quot;text-body text-secondary&quot;&gt;adc-catalog-docs&lt;/span&gt;" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#7AA116;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.s3;" vertex="1" parent="1">
                     <mxGeometry x="322" y="461" width="78" height="78" as="geometry"/>
@@ -32,8 +32,8 @@
                 <mxCell id="8" value="&lt;span class=&quot;text-body text-secondary&quot;&gt;adc-catalog-media&lt;/span&gt;" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#7AA116;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.s3;" vertex="1" parent="1">
                     <mxGeometry x="158" y="461" width="78" height="78" as="geometry"/>
                 </mxCell>
-                <mxCell id="9" value="&lt;span class=&quot;text-body text-secondary&quot;&gt;&lt;font style=&quot;font-size: 7px;&quot;&gt;OAC - solo CloudFront puede leer&lt;/font&gt;&lt;/span&gt;" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#232F3D;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;pointerEvents=1;shape=mxgraph.aws4.ssl_padlock;" vertex="1" parent="1">
-                    <mxGeometry x="432.32" y="550" width="26.68" height="26" as="geometry"/>
+                <mxCell id="9" value="&lt;span style=&quot;line-height: 30%;&quot; class=&quot;text-body text-secondary&quot;&gt;&lt;font style=&quot;font-size: 7px; line-height: 30%;&quot;&gt;OAC&lt;/font&gt;&lt;/span&gt;&lt;div style=&quot;line-height: 30%;&quot;&gt;&lt;span class=&quot;text-body text-secondary&quot;&gt;&lt;font style=&quot;font-size: 7px; line-height: 30%;&quot;&gt;solo CloudFront puede leer&lt;/font&gt;&lt;/span&gt;&lt;/div&gt;" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#232F3D;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=bottom;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;pointerEvents=1;shape=mxgraph.aws4.ssl_padlock;horizontal=1;" vertex="1" parent="1">
+                    <mxGeometry x="449.32" y="547" width="26.68" height="26" as="geometry"/>
                 </mxCell>
                 <mxCell id="11" style="edgeStyle=orthogonalEdgeStyle;html=1;entryX=0.75;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;rounded=0;curved=0;startArrow=classic;startFill=1;" edge="1" parent="1" source="4" target="5">
                     <mxGeometry relative="1" as="geometry">
@@ -66,10 +66,10 @@
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="22" value="&lt;span class=&quot;text-body text-secondary&quot;&gt;Bucket privado, sin acceso público directo (ver ADR-006)&lt;/span&gt;" style="text;whiteSpace=wrap;html=1;fontSize=9;" vertex="1" parent="1">
-                    <mxGeometry x="130" y="415" width="236" height="20" as="geometry"/>
+                    <mxGeometry x="122" y="415" width="236" height="20" as="geometry"/>
                 </mxCell>
-                <mxCell id="23" value="&lt;span class=&quot;text-body text-secondary&quot;&gt;ADC - Disponibilidad de Contenidos vía CDN (Lección 6)&lt;/span&gt;" style="text;whiteSpace=wrap;html=1;fontSize=18;fontStyle=1;align=center;" vertex="1" parent="1">
-                    <mxGeometry x="28.5" y="-20" width="501" height="30" as="geometry"/>
+                <mxCell id="23" value="&lt;span class=&quot;text-body text-secondary&quot;&gt;ADC - Disponibilidad de Contenidos vía CDN (Lección 6)&lt;/span&gt;&lt;div&gt;&lt;span style=&quot;font-weight: normal;&quot; class=&quot;text-body text-secondary&quot;&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;Ref: ADR-006&lt;/font&gt;&lt;/span&gt;&lt;/div&gt;" style="text;whiteSpace=wrap;html=1;fontSize=18;fontStyle=1;align=center;" vertex="1" parent="1">
+                    <mxGeometry x="28.5" y="-50" width="501" height="30" as="geometry"/>
                 </mxCell>
             </root>
         </mxGraphModel>
