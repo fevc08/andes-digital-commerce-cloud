@@ -34,6 +34,8 @@ componente.
 | Tareas Fargate | Subred privada, ambas AZs | Ejecutan la aplicación (definidas en ADR-004) |
 | RDS PostgreSQL Multi-AZ | Subred privada, ambas AZs | Base de datos transaccional (definida en ADR-002) |
 
+![Arquitectura Lección 5 — Disponibilidad de Red](../../diagramas/exportados/05-disponibilidad-red.png)
+
 ## 4. Configuración del Target Group y Health Checks
 
 - **Protocolo de health check:** HTTP, sobre una ruta de verificación
