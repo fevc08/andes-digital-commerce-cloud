@@ -16,9 +16,6 @@
                 <mxCell id="5" value="&lt;span class=&quot;text-body text-secondary&quot;&gt;Servicio de Sincronización&lt;/span&gt;&lt;div&gt;&lt;span class=&quot;text-body text-secondary&quot;&gt;de Inventario&lt;/span&gt;&lt;/div&gt;" style="image;aspect=fixed;html=1;points=[];align=center;fontSize=12;image=img/lib/azure2/preview/Static_Apps.svg;" parent="3" vertex="1">
                     <mxGeometry x="40" y="62" width="68" height="54" as="geometry"/>
                 </mxCell>
-                <mxCell id="6" value="Application Load Balancer: Lección 5" style="rounded=1;arcSize=10;dashed=1;strokeColor=#808080;fillColor=none;gradientColor=none;dashPattern=8 4;strokeWidth=2;horizontal=0;verticalAlign=top;" parent="3" vertex="1">
-                    <mxGeometry x="380" y="5" width="352" height="390" as="geometry"/>
-                </mxCell>
                 <mxCell id="7" value="&lt;span class=&quot;text-body text-secondary&quot;&gt;Subred pública 10.0.1.0/24&lt;/span&gt;" style="points=[[0,0],[0.25,0],[0.5,0],[0.75,0],[1,0],[1,0.25],[1,0.5],[1,0.75],[1,1],[0.75,1],[0.5,1],[0.25,1],[0,1],[0,0.75],[0,0.5],[0,0.25]];outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;fontSize=12;fontStyle=0;container=1;pointerEvents=0;collapsible=0;recursiveResize=0;shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_security_group;grStroke=0;strokeColor=#7AA116;fillColor=#F2F6E8;verticalAlign=top;align=left;spacingLeft=30;fontColor=#248814;dashed=0;" parent="1" vertex="1">
                     <mxGeometry x="160" y="300" width="740" height="220" as="geometry"/>
                 </mxCell>
