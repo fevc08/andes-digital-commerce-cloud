@@ -9,6 +9,8 @@ específicamente durante un evento CyberDay.
 
 ## 2. Componentes del servicio de cómputo
 
+![Arquitectura Lección 8: Administración de Costos](../../diagramas/exportados/08-administracion-costos.png)
+
 | Componente | Configuración |
 |---|---|
 | Clúster | Amazon ECS, tipo de lanzamiento **Fargate** (sin instancias EC2 que administrar) |

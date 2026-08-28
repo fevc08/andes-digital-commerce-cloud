@@ -64,7 +64,7 @@ no como la herramienta principal.
 | Compromiso | Recurso | Término | Modalidad de pago |
 |---|---|---|---|
 | Reserved Instance | RDS PostgreSQL (`db.t3.medium`, Multi-AZ) | 1 año | Parcial adelantado |
-| Compute Savings Plan | Fargate — 4 tareas de capacidad base únicamente | 1 año | Sin adelanto |
+| Compute Savings Plan | Fargate, 4 tareas de capacidad base únicamente | 1 año | Sin adelanto |
 
 La capacidad CyberDay de Fargate (36 tareas adicionales) **no** se incluye
 en el Savings Plan, permanece On-Demand, tal como se justificó en
