@@ -3,8 +3,8 @@
 ## 1. Objetivo
 
 Completar el diseño de red de la VPC de ADC, definido parcialmente desde
-ADR-003, integrando el **Application Load Balancer** y el **NAT Gateway**
-definidos en **[ADR-005](../../adr/005-balanceo-carga-multi-az.md)**, y
+ADR-0003, integrando el **Application Load Balancer** y el **NAT Gateway**
+definidos en **[ADR-0005](../../adr/0005-balanceo-carga-multi-az.md)**, y
 documentar el flujo de tráfico completo — de entrada y de salida — a través
 de la red.
 
@@ -31,10 +31,10 @@ componente.
 | Application Load Balancer | Subred pública, ambas AZs | Recibe tráfico de usuarios, distribuye a las tareas Fargate |
 | NAT Gateway | Subred pública (1 en el Lab, ideal 2) | Da salida a internet a los recursos de la subred privada |
 | Target Group | — (asociado al ALB) | Lista de tareas Fargate saludables que reciben tráfico |
-| Tareas Fargate | Subred privada, ambas AZs | Ejecutan la aplicación (definidas en ADR-004) |
-| RDS PostgreSQL Multi-AZ | Subred privada, ambas AZs | Base de datos transaccional (definida en ADR-002) |
+| Tareas Fargate | Subred privada, ambas AZs | Ejecutan la aplicación (definidas en ADR-0004) |
+| RDS PostgreSQL Multi-AZ | Subred privada, ambas AZs | Base de datos transaccional (definida en ADR-0002) |
 
-![Arquitectura Lección 5 — Disponibilidad de Red](../../diagramas/exportados/05-disponibilidad-red.png)
+![Arquitectura Lección 5 — Disponibilidad de Red](../../diagrams/export/05-disponibilidad-red.png)
 
 ## 4. Configuración del Target Group y Health Checks
 
@@ -43,12 +43,12 @@ componente.
 - **Intervalo:** cada 30 segundos.
 - **Umbral de no saludable:** 2 verificaciones fallidas consecutivas (~60-90
   segundos totales para detectar y retirar una tarea, tal como se definió
-  en la métrica de éxito de ADR-005).
+  en la métrica de éxito de ADR-0005).
 - **Umbral de saludable:** 2 verificaciones exitosas consecutivas antes de
   volver a recibir tráfico (evita reincorporar una tarea que se recuperó de
   forma inestable).
 
-Cuando el Auto Scaling Group de ADR-004 lanza una tarea nueva durante un
+Cuando el Auto Scaling Group de ADR-0004 lanza una tarea nueva durante un
 pico de CyberDay, esta pasa primero por este *health check* antes de
 recibir tráfico real, es el mismo paso "el ELB registra" del ciclo de
 autoescalado que describimos en el informe técnico de la Lección 4, ahora
@@ -61,7 +61,7 @@ con su configuración concreta.
    cualquiera de las dos zonas de disponibilidad.
 3. El ALB evalúa el contenido de la solicitud (Capa 7) y la envía a una
    tarea Fargate saludable del Target Group, usando el algoritmo de
-   **Least Outstanding Requests** definido en ADR-005.
+   **Least Outstanding Requests** definido en ADR-0005.
 4. La tarea Fargate procesa la solicitud, consultando RDS (datos
    transaccionales) o el catálogo (S3) según corresponda.
 5. Si la tarea que recibió la solicitud se satura o falla, el ALB deja de
@@ -84,7 +84,7 @@ con su configuración concreta.
 internet puede iniciar una conexión hacia la subred privada a través del
 NAT Gateway, a diferencia del ALB, que sí acepta conexiones entrantes. Esta
 asimetría es intencional y es la base de la postura de seguridad que
-venimos manteniendo desde ADR-003.
+venimos manteniendo desde ADR-0003.
 
 ## 7. Las tres capas de Multi-AZ de ADC
 
@@ -93,9 +93,9 @@ lo largo de tres lecciones distintas, y que ahora queda completo:
 
 | Capa | Mecanismo Multi-AZ | Definido en |
 |---|---|---|
-| Datos | RDS con réplica standby sincrónica | ADR-002 |
-| Cómputo | Tareas Fargate distribuidas en 2 AZs con Auto Scaling | ADR-004 |
-| Red | ALB distribuido en 2 AZs + NAT Gateway | ADR-005 (este informe) |
+| Datos | RDS con réplica standby sincrónica | ADR-0002 |
+| Cómputo | Tareas Fargate distribuidas en 2 AZs con Auto Scaling | ADR-0004 |
+| Red | ALB distribuido en 2 AZs + NAT Gateway | ADR-0005 (este informe) |
 
 Ninguna de las tres capas depende de las otras dos para sobrevivir a la
 caída de una zona de disponibilidad, es precisamente lo que el material de
@@ -105,9 +105,9 @@ disponibilidad: "sin punto único de falla" en ningún nivel del stack.
 ## 8. Relación con otras lecciones
 
 - **Lección 3 (Modelo híbrido):** completa la subred pública que se dejó
-  vacía en ADR-003.
+  vacía en ADR-0003.
 - **Lección 4 (Escalabilidad de cómputo):** el Target Group del ALB
-  apunta directamente a las tareas Fargate definidas en ADR-004; el
+  apunta directamente a las tareas Fargate definidas en ADR-0004; el
   placeholder "Application Load Balancer, Lección 5" del diagrama de esa
   lección se resuelve acá.
 - **Lección 6 (Disponibilidad de contenido):** el ALB maneja el tráfico

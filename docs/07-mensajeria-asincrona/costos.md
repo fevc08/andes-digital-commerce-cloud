@@ -24,7 +24,7 @@ de fracciones de centavo), corregido a 0.02 y 0.015 millones
 respectivamente.
 
 **Sobre "Message Data Protection" en SNS:** ADC no utiliza escaneo de
-mensajes ni auditoría (funcionalidades no evaluadas en ADR-007). La
+mensajes ni auditoría (funcionalidades no evaluadas en ADR-0007). La
 calculadora exige un mínimo técnico de 0.0000095367432 GB/mes (~10 KB) en
 ambos campos, el costo resultante es despreciable y no representa una
 funcionalidad activa del diseño.

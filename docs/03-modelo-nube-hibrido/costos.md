@@ -26,7 +26,7 @@ de la misma VPC, se presupuestan en `docs/05-disponibilidad-red/costos.md`
 | **Total Lección 3** | **36.95** |
 
 *(Nota: estimación de diseño. El túnel VPN completo no es desplegable en el
-Lab según lo documentado en ADR-003, ya que no existe un datacenter físico
+Lab según lo documentado en ADR-0003, ya que no existe un datacenter físico
 real de ADC contra el cual conectar, esta estimación representa el costo
 del lado AWS de la conexión.)*
 

@@ -1,4 +1,4 @@
-# ADR-006: Disponibilidad de contenido mediante CDN
+# ADR-0006: Disponibilidad de contenido mediante CDN
 
 **Estado:** Aceptado
 **Fecha:** 2026-08-27
@@ -7,7 +7,7 @@
 ## Contexto
 
 ADC sirve su catálogo de productos a usuarios en Chile, Perú y Colombia.
-Hasta ADR-001, el acceso de lectura al catálogo (`adc-catalog-media` y
+Hasta ADR-0001, el acceso de lectura al catálogo (`adc-catalog-media` y
 `adc-catalog-docs`) se resolvía con URLs firmadas de S3 generadas por el
 Servicio de Catálogo  sin distribución geográfica, cada solicitud viaja
 hasta el bucket en la región de origen.
@@ -19,11 +19,11 @@ interno / confidencial / restringido) a los datos de ADC:
 |---|---|---|
 | Imágenes/videos de producto (`adc-catalog-media`) | **Público** | Sin datos personales; diseñado para visualización masiva, incluso por buscadores (SEO) |
 | Fichas técnicas (`adc-catalog-docs`) | **Público** | Documentación de producto, sin información comercial sensible |
-| Datos transaccionales (pedidos, pagos) | **Restringido** | Ya protegido en RDS, subred privada (ADR-002, ADR-003) |
+| Datos transaccionales (pedidos, pagos) | **Restringido** | Ya protegido en RDS, subred privada (ADR-0002, ADR-0003) |
 | Métricas de costos/márgenes comerciales | **Confidencial** | Mencionado como ejemplo en el material; fuera del alcance técnico de este proyecto |
 
 Esta clasificación revela que exigir URLs firmadas para **leer** el catálogo
-(decisión de ADR-001) no se ajusta a la naturaleza pública de ese contenido  es fricción sin beneficio de seguridad real, y además impide aprovechar
+(decisión de ADR-0001) no se ajusta a la naturaleza pública de ese contenido  es fricción sin beneficio de seguridad real, y además impide aprovechar
 cacheo en el edge para reducir latencia hacia los 3 países.
 
 ## Decisión
@@ -33,13 +33,13 @@ del catálogo, usando **Origin Access Control (OAC)** para que los buckets
 permanezcan privados (sin acceso público directo a S3), mientras
 CloudFront sirve el contenido **públicamente**, acorde a su clasificación.
 
-- **Se elimina** la URL firmada de lectura (GET) definida en ADR-001  el
+- **Se elimina** la URL firmada de lectura (GET) definida en ADR-0001  el
   contenido público no la necesita.
 - **Se mantiene sin cambios** la URL firmada de subida (PUT) desde el CMS,
   publicar contenido sigue siendo una acción restringida al personal
   autorizado.
 - Una única distribución CloudFront con **dos orígenes** (comportamiento
-  por ruta, similar al enrutamiento por contenido del ALB en ADR-005):
+  por ruta, similar al enrutamiento por contenido del ALB en ADR-0005):
   `/media/*` → `adc-catalog-media`, `/docs/*` → `adc-catalog-docs`.
 - **Política de caché:** TTL por defecto 24 h; invalidación evitada mediante
   *cache-busting* por versión de objeto (el Servicio de Catálogo incluye el
@@ -59,7 +59,7 @@ CloudFront sirve el contenido **públicamente**, acorde a su clasificación.
 | Opción | Ventajas | Desventajas | ¿Por qué se descartó / eligió? |
 |---|---|---|---|
 | **CloudFront + OAC** (elegida) | Reduce latencia y costo; mantiene S3 privado sin exponerlo directamente | Requiere gestionar una capa adicional (distribución, comportamientos de caché) | Elegida: se ajusta a la clasificación "público" del contenido y al alcance geográfico de ADC |
-| Mantener URLs firmadas GET (statu quo ADR-001) | Sin cambios adicionales | No reduce latencia para usuarios LATAM; cada solicitud golpea S3 directamente; fricción de seguridad sin beneficio real para contenido público | Descartada  no se ajusta a la naturaleza del contenido una vez clasificado correctamente |
+| Mantener URLs firmadas GET (statu quo ADR-0001) | Sin cambios adicionales | No reduce latencia para usuarios LATAM; cada solicitud golpea S3 directamente; fricción de seguridad sin beneficio real para contenido público | Descartada  no se ajusta a la naturaleza del contenido una vez clasificado correctamente |
 | CloudFront con Signed URLs/Cookies (todo el contenido restringido) | Máximo control de acceso | Contradice la clasificación "público"; innecesario para catálogo sin licenciamiento especial | Descartada por ahora  candidata si en el futuro ADC vende contenido premium/licenciado |
 | Multi-Region S3 + Route 53 latency-based routing (sin CDN) | Sin capa de caché externa | Requiere replicar buckets completos en múltiples regiones; mayor costo y complejidad que activar un CDN | Descartada |
 
@@ -73,8 +73,8 @@ CloudFront sirve el contenido **públicamente**, acorde a su clasificación.
 | Aspecto | Diseño ideal (producción) | Lo que se implementa/documenta en el Lab | Motivo de la brecha |
 |---|---|---|---|
 | Price Class de CloudFront | "Use all edge locations"  máxima cobertura global, incluyendo LATAM | Price Class reducida (menor costo) | El Lab tiene créditos limitados; se documenta el impacto: menor cobertura de edge locations cercanas a CL/PE/CO |
-| Dominio y certificado | Dominio propio de ADC con certificado ACM | Dominio por defecto `*.cloudfront.net` | Misma brecha que ADR-005  ADC no tiene dominio real registrado |
-| AWS WAF en CloudFront | Reglas gestionadas contra ataques comunes | Fuera de alcance  no hay lección dedicada a seguridad perimetral en este módulo | Misma nota que ADR-005 |
+| Dominio y certificado | Dominio propio de ADC con certificado ACM | Dominio por defecto `*.cloudfront.net` | Misma brecha que ADR-0005  ADC no tiene dominio real registrado |
+| AWS WAF en CloudFront | Reglas gestionadas contra ataques comunes | Fuera de alcance  no hay lección dedicada a seguridad perimetral en este módulo | Misma nota que ADR-0005 |
 
 ## Costos estimados
 

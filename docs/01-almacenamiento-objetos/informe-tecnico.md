@@ -7,7 +7,7 @@ Digital Commerce (ADC), integrándola con el flujo general de la arquitectura
 (carga desde CMS, consumo desde el front-end de e-commerce).
 
 La decisión completa, con alternativas evaluadas y pilares WAF, está
-documentada en **[ADR-001](../../adr/001-tipo-almacenamiento-objetos.md)**.
+documentada en **[ADR-0001](../../adr/0001-tipo-almacenamiento-objetos.md)**.
 Este informe se enfoca en el *cómo se integra* en el flujo operativo.
 
 ## 2. Arquitectura seleccionada
@@ -74,7 +74,7 @@ momento por una campaña). S3 Intelligent-Tiering resuelve esto de forma
 nativa, sin que el equipo de ADC tenga que mantener reglas de ciclo de vida
 manuales basadas en antigüedad, que es la alternativa más común, pero menos
 adecuada para este caso de negocio específico (detalle completo de
-alternativas evaluadas en ADR-001).
+alternativas evaluadas en ADR-0001).
 
 ## 6. Relación con otras lecciones
 

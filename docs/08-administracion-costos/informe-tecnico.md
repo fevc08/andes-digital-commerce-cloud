@@ -4,7 +4,7 @@
 
 Documentar la configuración concreta de la estrategia de optimización y
 monitoreo de costos definida en
-**[ADR-008](../../adr/008-estrategia-costos.md)**.
+**[ADR-0008](../../adr/0008-estrategia-costos.md)**.
 
 ## 2. Convención de Cost Allocation Tags
 
@@ -50,8 +50,8 @@ realmente ocurra, en vez de notificar cuando el daño ya está hecho.
 | Namespace | `AWS/Billing` |
 | Métrica | `EstimatedCharges` |
 | Umbral | Mismo monto que el presupuesto mensual de Budgets |
-| Periodo de evaluación | 6 horas (coherente con el retraso natural de la métrica, documentado en ADR-008) |
-| Acción | Notificación SNS *(el mismo servicio que ya diseñamos en ADR-007, se reutiliza como canal de notificación, en vez de crear uno nuevo solo para esto)* |
+| Periodo de evaluación | 6 horas (coherente con el retraso natural de la métrica, documentado en ADR-0008) |
+| Acción | Notificación SNS *(el mismo servicio que ya diseñamos en ADR-0007, se reutiliza como canal de notificación, en vez de crear uno nuevo solo para esto)* |
 
 **Nota importante, tomada directamente del material:** CloudWatch no
 provee métricas financieras nativas, `EstimatedCharges` es una excepción
@@ -68,7 +68,7 @@ no como la herramienta principal.
 
 La capacidad CyberDay de Fargate (36 tareas adicionales) **no** se incluye
 en el Savings Plan, permanece On-Demand, tal como se justificó en
-ADR-008.
+ADR-0008.
 
 ## 6. Relación con otras lecciones
 

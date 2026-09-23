@@ -35,6 +35,6 @@ forma distinta.)*
 El costo mensual está compuesto principalmente por:
 - Almacenamiento de los 500 GB de `adc-catalog-media` (el bucket dominante en volumen).
 - Solicitudes GET, que son 10x más frecuentes que las PUT, coherente con un catálogo que se **consulta mucho más de lo que se actualiza**, típico de un front-end de e-commerce.
-- El costo de *monitoring & automation* de Intelligent-Tiering (cargo por objeto, aplicado a los ~128.000 objetos estimados), que es el "costo de entrada" que se paga a cambio de no tener que mantener reglas de lifecycle manuales, trade-off ya justificado en ADR-001.
+- El costo de *monitoring & automation* de Intelligent-Tiering (cargo por objeto, aplicado a los ~128.000 objetos estimados), que es el "costo de entrada" que se paga a cambio de no tener que mantener reglas de lifecycle manuales, trade-off ya justificado en ADR-0001.
 
 Este número (~$9 USD/mes) se va a usar como línea base en `docs/08-administracion-costos/` para el análisis de eficiencia consolidado del proyecto.

@@ -10,7 +10,7 @@
 | Componente | Configuración |
 |---|---|
 | Application Load Balancer | 1 ALB, ~15 nuevas conexiones/seg promedio, 60s duración, 50 KB/solicitud (~1.971 GB/mes procesados) |
-| NAT Gateway | 1 (decisión de ADR-005), 730 h/mes, 10 GB/mes procesados |
+| NAT Gateway | 1 (decisión de ADR-0005), 730 h/mes, 10 GB/mes procesados |
 
 **Nota sobre "Regional NAT Gateway":** la calculadora exige un mínimo de 1
 en los campos de esta sección alternativa (modalidad de despliegue distinta

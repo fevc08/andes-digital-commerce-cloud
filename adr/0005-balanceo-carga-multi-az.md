@@ -1,4 +1,4 @@
-# ADR-005: Balanceo de carga y disponibilidad multi-AZ
+# ADR-0005: Balanceo de carga y disponibilidad multi-AZ
 
 **Estado:** Aceptado
 **Fecha:** 2026-08-26
@@ -6,12 +6,12 @@
 
 ## Contexto
 
-Con el modelo híbrido (ADR-003) y la capa de cómputo escalable (ADR-004) ya
+Con el modelo híbrido (ADR-0003) y la capa de cómputo escalable (ADR-0004) ya
 definidos, queda pendiente resolver dos piezas que conectan todo lo
 construido hasta ahora:
 
 1. **Cómo entra el tráfico de los usuarios** a la subred pública de la VPC
-   (dejada vacía intencionalmente desde ADR-003) y llega a las tareas
+   (dejada vacía intencionalmente desde ADR-0003) y llega a las tareas
    Fargate en la subred privada.
 2. **Cómo sale el tráfico** de la subred privada hacia internet (necesario,
    por ejemplo, para que las tareas Fargate descarguen imágenes de
@@ -19,7 +19,7 @@ construido hasta ahora:
 
 Según el material de la lección, una arquitectura de alta disponibilidad
 típica combina tres elementos: distribución en múltiples AZs, balanceo de
-carga, y escalado dinámico, los dos últimos ya resueltos en ADR-004; este
+carga, y escalado dinámico, los dos últimos ya resueltos en ADR-0004; este
 ADR resuelve la distribución en AZs a nivel de red.
 
 ## Decisión
@@ -28,7 +28,7 @@ ADR resuelve la distribución en AZs a nivel de red.
 
 Se despliega un **Application Load Balancer**, distribuido en las dos
 zonas de disponibilidad de la subred pública, con un **target group**
-apuntando a las tareas Fargate del ADR-004. Algoritmo de distribución:
+apuntando a las tareas Fargate del ADR-0004. Algoritmo de distribución:
 **Least Outstanding Requests** (no Round Robin).
 
 **NAT Gateway:**
@@ -42,7 +42,7 @@ tareas Fargate para descarga de imágenes de contenedor).
 | Tipo de balanceador | Capa OSI | ¿Calza con ADC? |
 |---|---|---|
 | **Application Load Balancer (elegido)** | 7 (Aplicación) | Sí, puede enrutar por contenido HTTP (ruta `/catalogo` vs `/checkout`), hacer *health checks* basados en código de respuesta HTTP (no solo TCP), y terminar SSL/TLS |
-| Network Load Balancer | 4 (Transporte) | No, solo distribuye por IP/puerto, sin visibilidad del contenido de la solicitud; no permite el enrutamiento futuro por microservicio mencionado como diseño ideal en ADR-004 |
+| Network Load Balancer | 4 (Transporte) | No, solo distribuye por IP/puerto, sin visibilidad del contenido de la solicitud; no permite el enrutamiento futuro por microservicio mencionado como diseño ideal en ADR-0004 |
 | Classic Load Balancer | 4/7 híbrido | No, tecnología legacy que AWS ya no recomienda para cargas nuevas |
 
 ## Justificación: ¿por qué Least Outstanding Requests y no Round Robin?
@@ -74,7 +74,7 @@ recibiendo más tráfico del que puede procesar.
 | Network Load Balancer | Latencia mínima, throughput extremo | Sin visibilidad de contenido HTTP, no permite enrutamiento por ruta | Descartada, ADC no tiene requisitos de latencia extrema que justifiquen renunciar al enrutamiento por contenido |
 | 2 NAT Gateways (uno por AZ) | Alta disponibilidad real, sin punto único de falla en la salida a internet | Duplica el costo mensual del NAT Gateway | Diseño ideal, ver brecha con el Lab abajo |
 | 1 NAT Gateway (única AZ) | Menor costo | Punto único de falla para la salida a internet de toda la subred privada; tráfico cross-AZ adicional desde la AZ que no lo tiene local | Implementación en el Lab, con brecha documentada explícitamente |
-| NAT Instance (EC2 propia) | Menor costo que NAT Gateway gestionado | Requiere gestión y parcheo manual, contradice el principio de mínima carga operativa ya aplicado con Fargate en ADR-004 | Descartada |
+| NAT Instance (EC2 propia) | Menor costo que NAT Gateway gestionado | Requiere gestión y parcheo manual, contradice el principio de mínima carga operativa ya aplicado con Fargate en ADR-0004 | Descartada |
 
 ## Métricas de éxito
 
@@ -99,7 +99,7 @@ recibiendo más tráfico del que puede procesar.
 
 **Positivas:**
 - Cierra el diseño de red completo: entrada (ALB) y salida (NAT) de la subred pública/privada
-- El enrutamiento por contenido HTTP deja lista la evolución hacia microservicios independientes mencionada en ADR-004
+- El enrutamiento por contenido HTTP deja lista la evolución hacia microservicios independientes mencionada en ADR-0004
 - El trade-off de NAT Gateway queda documentado con criterio explícito, no como un descuido
 
 **Negativas / riesgos:**

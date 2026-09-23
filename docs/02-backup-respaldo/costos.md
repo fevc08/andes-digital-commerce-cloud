@@ -19,7 +19,7 @@ campos de transición a cold storage para los tipos de recurso RDS Backup ni
 S3 Backup (a diferencia de EFS, que sí los expone). Esta es una limitación
 de la herramienta de estimación, no del servicio real. En un despliegue de
 producción, AWS Backup sí soporta cold storage para ambos tipos de recurso.
-Por eso los 12 meses de retención mensual definidos en ADR-002 se cargan
+Por eso los 12 meses de retención mensual definidos en ADR-0002 se cargan
 acá como retención completa en warm storage, lo que **sobreestima** el costo
 real de producción (donde existiría ahorro adicional al mover snapshots
 antiguos a frío después de 90 días).

@@ -1,4 +1,4 @@
-# ADR-001: Selección de arquitectura de almacenamiento de objetos para el catálogo de productos
+# ADR-0001: Selección de arquitectura de almacenamiento de objetos para el catálogo de productos
 
 **Estado:** Aceptado
 **Fecha:** 2026-08-18
@@ -35,7 +35,7 @@ en dos buckets según el tipo de contenido y su patrón de acceso:
 El acceso público a los objetos **no se realiza mediante ACLs públicas**, sino
 a través de **URLs firmadas (presigned URLs)** generadas por el servicio de
 catálogo, con expiración corta. Esto sienta la base para la integración con
-CloudFront que se formalizará en la Lección 6 (ADR-006).
+CloudFront que se formalizará en la Lección 6 (ADR-0006).
 
 ## Pilares de AWS Well-Architected Framework
 
@@ -58,7 +58,7 @@ CloudFront que se formalizará en la Lección 6 (ADR-006).
 ## Métricas de éxito
 
 - **SLA/SLO:** 99.9% de disponibilidad del catálogo (heredado del contexto de negocio)
-- **RTO/RPO:** RTO ≤ 4 h / RPO ≤ 24 h — el mecanismo concreto que sostiene este RPO (versionado + replicación) se detalla en **ADR-002 (Lección 2)**
+- **RTO/RPO:** RTO ≤ 4 h / RPO ≤ 24 h — el mecanismo concreto que sostiene este RPO (versionado + replicación) se detalla en **ADR-0002 (Lección 2)**
 
 ## Diseño ideal vs. restricción del AWS Academy Learner Lab
 

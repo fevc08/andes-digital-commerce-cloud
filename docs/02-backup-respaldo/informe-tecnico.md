@@ -3,13 +3,13 @@
 ## 1. Objetivo
 
 Documentar cómo se implementa operativamente el plan de backup centralizado
-definido en **[ADR-002](../../adr/002-estrategia-backup-recuperacion.md)**,
+definido en **[ADR-0002](../../adr/0002-estrategia-backup-recuperacion.md)**,
 describiendo el flujo de respaldo y el procedimiento de recuperación para
 cada tipo de dato de ADC.
 
 ## 2. Arquitectura de respaldo seleccionada
 
-![Arquitectura Lección 2 — Backup y Recuperación](../../diagramas/exportados/02-backup.png)
+![Arquitectura Lección 2 — Backup y Recuperación](../../diagrams/export/02-backup.png)
 
 ADC utiliza **AWS Backup** como orquestador centralizado, con dos planes de
 backup independientes, cada uno con su propia frecuencia y retención,
@@ -17,9 +17,9 @@ proporcional a la criticidad del dato que protege:
 
 | | Datos transaccionales (RDS) | Catálogo de productos (S3) |
 |---|---|---|
-| **Mecanismo base** | Transaction log backup continuo (nativo de RDS) | Versionado (ADR-001) |
+| **Mecanismo base** | Transaction log backup continuo (nativo de RDS) | Versionado (ADR-0001) |
 | **Snapshot vía AWS Backup** | Diario (retención 7 días) → Semanal (4 semanas) → Mensual (12 meses) | Semanal (retención 90 días) |
-| **Redundancia adicional** | Multi-AZ (failover automático) | *(sin CRR — ver ADR-002)* |
+| **Redundancia adicional** | Multi-AZ (failover automático) | *(sin CRR — ver ADR-0002)* |
 | **RPO objetivo** | ≤ 15 min | ≤ 24 h |
 | **RTO objetivo** | ≤ 1 h | ≤ 4 h |
 
@@ -56,7 +56,7 @@ El catálogo tiene un perfil de riesgo distinto: los datos son
 productos), por lo que no se justifica una estrategia tan agresiva como la
 transaccional.
 
-- El **versionado** (activo desde ADR-001) es la primera línea de defensa:
+- El **versionado** (activo desde ADR-0001) es la primera línea de defensa:
   protege contra sobrescrituras accidentales del CMS sin necesitar un
   proceso de restauración formal, simplemente se recupera la versión
   anterior del objeto.
@@ -66,7 +66,7 @@ transaccional.
 
 Esta combinación es suficiente para cumplir RPO ≤ 24 h sin necesitar
 Cross-Region Replication continua, una decisión de costo/beneficio
-documentada explícitamente en ADR-002.
+documentada explícitamente en ADR-0002.
 
 ## 5. Procedimiento de recuperación (runbook resumido)
 
@@ -88,6 +88,6 @@ documentada explícitamente en ADR-002.
 
 ## 6. Relación con otras lecciones
 
-- **Lección 1 (Almacenamiento de objetos):** el versionado de S3 activado en ADR-001 es la base sobre la que se construye el plan de backup del catálogo.
-- **Lección 3 (Modelo de nube híbrido):** este informe asume que el ERP/WMS on-premise gestiona su propio backup de forma independiente, la justificación completa de esa separación de responsabilidad se formaliza en ADR-003.
-- **Lección 5 (Disponibilidad de red):** el Multi-AZ mencionado aquí es específico de la capa de base de datos (RDS); el Multi-AZ de la capa de cómputo (ALB + Auto Scaling Group) se diseña por separado en ADR-005, con su propia justificación de tráfico y balanceo de carga.
+- **Lección 1 (Almacenamiento de objetos):** el versionado de S3 activado en ADR-0001 es la base sobre la que se construye el plan de backup del catálogo.
+- **Lección 3 (Modelo de nube híbrido):** este informe asume que el ERP/WMS on-premise gestiona su propio backup de forma independiente, la justificación completa de esa separación de responsabilidad se formaliza en ADR-0003.
+- **Lección 5 (Disponibilidad de red):** el Multi-AZ mencionado aquí es específico de la capa de base de datos (RDS); el Multi-AZ de la capa de cómputo (ALB + Auto Scaling Group) se diseña por separado en ADR-0005, con su propia justificación de tráfico y balanceo de carga.

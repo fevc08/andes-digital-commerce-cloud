@@ -32,7 +32,7 @@ Fargate bajo Compute Savings Plans en su propia guía técnica
 limitación de la herramienta, no del servicio, en un despliegue real, la
 tasa exacta se confirmaría en la consola de AWS al momento de la compra.
 
-## 3. Impacto de la estrategia de compromiso (ADR-008)
+## 3. Impacto de la estrategia de compromiso (ADR-0008)
 
 | Componente | Costo On-Demand | Costo con RI/SP (1 año) | Ahorro mensual | Ahorro % |
 |---|---|---|---|---|

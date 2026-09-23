@@ -1,4 +1,4 @@
-# ADR-007: Arquitectura de mensajería asíncrona
+# ADR-0007: Arquitectura de mensajería asíncrona
 
 **Estado:** Aceptado
 **Fecha:** 2026-08-27
@@ -6,7 +6,7 @@
 
 ## Contexto
 
-Desde ADR-003 quedaron definidos dos eventos de negocio que cruzan el
+Desde ADR-0003 quedaron definidos dos eventos de negocio que cruzan el
 enlace híbrido entre la VPC de ADC y el datacenter on-premise:
 
 1. **Cloud → On-premise:** "Pedido confirmado", dispara el proceso físico
@@ -14,10 +14,10 @@ enlace híbrido entre la VPC de ADC y el datacenter on-premise:
 2. **On-premise → Cloud:** "Actualización de stock", mantiene el catálogo
    y el checkout con disponibilidad real.
 
-En ADR-003 se estableció que estos eventos viajan de forma asíncrona por el
+En ADR-0003 se estableció que estos eventos viajan de forma asíncrona por el
 túnel VPN, pero el **mecanismo interno de mensajería** quedó pendiente para
 esta lección. La necesidad es real y no teórica: la VPN tiene latencia
-variable (documentado en ADR-003) y el WMS puede tener ventanas de
+variable (documentado en ADR-0003) y el WMS puede tener ventanas de
 mantenimiento, un mecanismo síncrono perdería el evento si el otro extremo
 no está disponible en ese instante exacto.
 
@@ -37,7 +37,7 @@ la naturaleza de cada evento:
 - Patrón: **Publicador-suscriptor**.
 - Topic SNS `adc-stock-updates`, con una cola SQS `catalog-sync-queue`
   suscrita (consumida por el Servicio de Sincronización de Inventario,
-  ADR-003).
+  ADR-0003).
 - Diseño abierto a futuros suscriptores (ej. una alerta de bajo stock)
   sin modificar el productor (WMS) ni el suscriptor actual.
 
@@ -57,7 +57,7 @@ la naturaleza de cada evento:
 | **SQS FIFO (pedido) + SNS→SQS (stock)** (elegida) | Cada evento usa el patrón que corresponde a su necesidad real | Dos mecanismos distintos que mantener, en vez de uno solo | Elegida: la necesidad de "exactamente un consumidor" vs. "potencialmente varios" es real, no cosmética |
 | SQS Standard para ambos eventos | Más simple, un solo tipo de recurso | Sin garantía de orden ni deduplicación — riesgo de picking duplicado en un evento que dispara una acción física irreversible | Descartada para "pedido confirmado" por el riesgo operativo que implica |
 | SNS pub/sub para ambos eventos (incluyendo pedido confirmado) | Máxima flexibilidad de suscriptores | "Pedido confirmado" debe procesarse una sola vez; pub/sub no fue diseñado para esa garantía | Descartada, no calza con el requisito de exactamente-un-consumidor |
-| Comunicación síncrona directa (API REST vía VPN) | Respuesta inmediata, más simple de depurar | Pierde el evento si el otro extremo no está disponible en ese instante, contradice la razón original por la que se eligió un modelo híbrido asíncrono en ADR-003 | Descartada |
+| Comunicación síncrona directa (API REST vía VPN) | Respuesta inmediata, más simple de depurar | Pierde el evento si el otro extremo no está disponible en ese instante, contradice la razón original por la que se eligió un modelo híbrido asíncrono en ADR-0003 | Descartada |
 
 ## Métricas de éxito
 
@@ -69,8 +69,8 @@ la naturaleza de cada evento:
 
 | Aspecto | Diseño ideal (producción) | Lo que se implementa/documenta en el Lab | Motivo de la brecha |
 |---|---|---|---|
-| Consumidor en el WMS real | Un listener corriendo en el datacenter de ADC, consumiendo la cola SQS a través del túnel VPN | Se documenta el mecanismo y se valida el encolado/desencolado manual desde la consola de SQS | El WMS de ADC es ficticio — no existe un endpoint real on-premise contra el cual integrar (misma naturaleza de brecha que el túnel VPN en ADR-003) |
-| Cifrado de mensajes | SSE con clave KMS gestionada por el cliente | Cifrado gestionado por SQS/SNS por defecto (SSE-SQS) | El rol `LabRole` no tiene permisos para administrar claves KMS propias (misma brecha que ADR-001 y ADR-002) |
+| Consumidor en el WMS real | Un listener corriendo en el datacenter de ADC, consumiendo la cola SQS a través del túnel VPN | Se documenta el mecanismo y se valida el encolado/desencolado manual desde la consola de SQS | El WMS de ADC es ficticio — no existe un endpoint real on-premise contra el cual integrar (misma naturaleza de brecha que el túnel VPN en ADR-0003) |
+| Cifrado de mensajes | SSE con clave KMS gestionada por el cliente | Cifrado gestionado por SQS/SNS por defecto (SSE-SQS) | El rol `LabRole` no tiene permisos para administrar claves KMS propias (misma brecha que ADR-0001 y ADR-0002) |
 
 ## Costos estimados
 

@@ -1,4 +1,4 @@
-# ADR-003: Modelo de nube - pública, privada e híbrida
+# ADR-0003: Modelo de nube - pública, privada e híbrida
 
 **Estado:** Aceptado
 **Fecha:** 2026-08-19
@@ -45,7 +45,7 @@ Se adopta un **modelo de nube híbrido** para ADC:
 
 | Dirección | Dato que cruza | Dato que NO cruza |
 |---|---|---|
-| Cloud → On-premise | Evento de "pedido confirmado y pagado" (para iniciar picking en WMS), se detalla en ADR-007 | Datos de tarjeta/pago (quedan tokenizados en el proveedor de pagos y en RDS cloud) |
+| Cloud → On-premise | Evento de "pedido confirmado y pagado" (para iniciar picking en WMS), se detalla en ADR-0007 | Datos de tarjeta/pago (quedan tokenizados en el proveedor de pagos y en RDS cloud) |
 | On-premise → Cloud | Actualización de stock/inventario (para mantener el catálogo y el checkout precisos) | Datos financieros del ERP, identidad corporativa (Active Directory), información contable |
 
 Minimizar lo que cruza el enlace es una decisión deliberada: el propio
@@ -82,7 +82,7 @@ masiva de datos, reduce esa superficie de riesgo.
 | Aspecto | Diseño ideal (producción) | Lo que se implementa/documenta en el Lab | Motivo de la brecha |
 |---|---|---|---|
 | Túnel VPN completo (extremo a extremo) | Conexión funcional entre el datacenter real de ADC y AWS | Se configura y documenta el lado AWS (Virtual Private Gateway / Customer Gateway), sin túnel activo end-to-end | El "datacenter on-premise" de ADC es un escenario ficticio, no existe un extremo físico real contra el cual conectar en el Lab |
-| Región | `sa-east-1` (São Paulo) | Región disponible en el Lab | Misma brecha documentada en ADR-001 |
+| Región | `sa-east-1` (São Paulo) | Región disponible en el Lab | Misma brecha documentada en ADR-0001 |
 | Upgrade a Direct Connect | Evaluación futura si el volumen de sincronización crece | Fuera de alcance, decisión de negocio, no restricción técnica del Lab | N/A |
 
 ## Costos estimados

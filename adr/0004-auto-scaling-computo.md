@@ -1,4 +1,4 @@
-# ADR-004: Estrategia de escalabilidad de servicios de cómputo
+# ADR-0004: Estrategia de escalabilidad de servicios de cómputo
 
 **Estado:** Aceptado
 **Fecha:** 2026-08-21
@@ -52,7 +52,7 @@ patrón de tráfico, tal como exige el material):
 | **Performance Efficiency** | Fargate lanza nuevas tareas en segundos, permitiendo que la capacidad reaccione casi en tiempo real al inicio de un pico de tráfico |
 | **Cost Optimization** | Se paga por vCPU/memoria mientras la tarea corre, sin instancias EC2 ociosas durante los meses de tráfico normal |
 | **Reliability** | Múltiples tareas distribuidas, con health checks automáticos que reemplazan tareas fallidas sin intervención manual |
-| **Operational Excellence** | Fargate elimina la gestión de parches de sistema operativo, relevante porque el equipo de ADC ya tiene carga operativa gestionando el ERP/WMS on-premise (ADR-003) |
+| **Operational Excellence** | Fargate elimina la gestión de parches de sistema operativo, relevante porque el equipo de ADC ya tiene carga operativa gestionando el ERP/WMS on-premise (ADR-0003) |
 
 ## Alternativas consideradas
 
@@ -60,7 +60,7 @@ patrón de tráfico, tal como exige el material):
 |---|---|---|---|
 | **ECS + Fargate** (elegida) | Arranque en segundos, sin gestión de servidores, escalado granular por tarea | Requiere disciplina de imágenes de contenedor y observabilidad por tarea | Elegida: coincide exactamente con el patrón de tráfico "continuo y variable" de ADC |
 | EC2 + Auto Scaling Group | Control total del sistema operativo, útil para cargas legacy | Arranque de 1-3 minutos — demasiado lento frente a un pico súbito de CyberDay; suma carga operativa de parches de SO | Descartada como motor principal, el tiempo de reacción no es competitivo para este caso de uso |
-| AWS Lambda | Arranque en milisegundos, pago por invocación, cero gestión de servidores | No es el mejor ajuste para servir una aplicación web con lógica de sesión sostenida; su caso ideal es eventos esporádicos/batch | Descartada como motor principal, se evalúa como candidata específica para la mensajería asíncrona en ADR-007 |
+| AWS Lambda | Arranque en milisegundos, pago por invocación, cero gestión de servidores | No es el mejor ajuste para servir una aplicación web con lógica de sesión sostenida; su caso ideal es eventos esporádicos/batch | Descartada como motor principal, se evalúa como candidata específica para la mensajería asíncrona en ADR-0007 |
 | Amazon EKS (Kubernetes gestionado) | Máxima flexibilidad y portabilidad multi-plataforma | Curva de aprendizaje y complejidad de orquestación no se justifican para un proyecto de un solo proveedor cloud, sin requisito de portabilidad | Descartada por sobre-ingeniería frente al alcance actual de ADC |
 
 ## Métricas de éxito

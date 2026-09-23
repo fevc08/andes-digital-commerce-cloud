@@ -28,7 +28,7 @@ forma conectada e integral, los siguientes desafíos:
 |---|---|
 | `docs/` | Informe técnico y costos por cada una de las 8 lecciones del módulo |
 | `adr/` | Architecture Decision Records — una por cada decisión arquitectónica clave |
-| `diagramas/` | Diagramas técnicos (.drawio) por etapa y el diagrama integrado final |
+| `diagrams/src/` | Diagramas técnicos (.drawio) por etapa y el diagrama integrado final |
 | `costos/` | Estimaciones consolidadas vía AWS Pricing Calculator |
 | `entregable-final/` | Documento integrador y esquema de comunicación entre servicios |
 

@@ -3,13 +3,13 @@
 ## 1. Objetivo
 
 Documentar el diseño de conectividad que materializa la decisión de
-**[ADR-003](../../adr/003-modelo-nube-publica-privada-hibrida.md)**: cómo se
+**[ADR-0003](../../adr/0003-modelo-nube-publica-privada-hibrida.md)**: cómo se
 conecta el datacenter on-premise de ADC con la VPC en AWS, y qué límites
 (de red y de datos) separan ambos entornos.
 
 ## 2. Mapeo de componentes al modelo híbrido
 
-![Arquitectura Lección 3 — Modelo de Nube Híbrido](../../diagramas/exportados/03-modelo-hibrido.png)
+![Arquitectura Lección 3 — Modelo de Nube Híbrido](../../diagrams/export/03-modelo-hibrido.png)
 
 | Componente | Entorno | Gestionado por |
 |---|---|---|
@@ -55,7 +55,7 @@ como único punto de integración entre ambos mundos.
    confirmado" a través del túnel VPN hacia el WMS.
 3. El WMS inicia el proceso físico de picking en bodega.
 4. *(El mecanismo específico de mensajería asíncrona para este evento —
-   colas, reintentos, desacoplamiento, se formaliza en ADR-007, Lección 7.
+   colas, reintentos, desacoplamiento, se formaliza en ADR-0007, Lección 7.
    Este informe solo establece que el evento viaja por el enlace híbrido,
    no el mecanismo interno de mensajería.)*
 
@@ -66,7 +66,7 @@ como único punto de integración entre ambos mundos.
    sincronización de inventario en AWS.
 3. El servicio actualiza el estado de disponibilidad del producto,
    consumido por el catálogo y el checkout.
-4. Tolerancia definida en ADR-003: máximo 15 minutos entre el cambio real
+4. Tolerancia definida en ADR-0003: máximo 15 minutos entre el cambio real
    de stock y su reflejo en el catálogo cloud.
 
 **Lo que nunca cruza el enlace:** datos de tarjetas/pagos (quedan
@@ -84,7 +84,7 @@ federación de identidad en el alcance de este proyecto).
   VPC tiene ruta directa hacia la red on-premise.
 - El diseño completo de subredes públicas/privadas multi-AZ (necesario para
   la capa de cómputo que se agrega en Lecciones 4 y 5) se detalla en
-  **ADR-005**; este informe solo establece el límite fundamental
+  **ADR-0005**; este informe solo establece el límite fundamental
   público/privado que existía antes.
 
 ## 6. Relación con otras lecciones

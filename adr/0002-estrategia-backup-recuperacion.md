@@ -1,4 +1,4 @@
-# ADR-002: Estrategia de backup y recuperación de datos
+# ADR-0002: Estrategia de backup y recuperación de datos
 
 **Estado:** Aceptado
 **Fecha:** 2026-08-18
@@ -22,7 +22,7 @@ que el material de la lección identifica explícitamente como parte de los
 "elementos contractuales" a definir con claridad en cualquier estrategia
 híbrida.
 
-El versionado de S3 ya activado en **ADR-001** protege contra sobrescrituras
+El versionado de S3 ya activado en **ADR-0001** protege contra sobrescrituras
 accidentales del catálogo, pero no es, por sí solo, una estrategia de backup
 completa, no protege contra la eliminación del bucket, y no cubre en
 absoluto los datos transaccionales, que no viven en S3.
@@ -40,9 +40,9 @@ políticas diferenciadas por criticidad de dato:
 - RDS desplegado en modo **Multi-AZ** para failover automático ante falla de infraestructura (~60-120 seg), complementario al backup, no un sustituto: Multi-AZ resuelve caída de infraestructura, el backup resuelve corrupción lógica o eliminación accidental de datos.
 
 **Plan "adc-backup-catalogo"** (S3 - `adc-catalog-media` y `adc-catalog-docs`):
-- Versionado (ya activo desde ADR-001) como primera línea de defensa.
+- Versionado (ya activo desde ADR-0001) como primera línea de defensa.
 - Backup adicional vía AWS Backup, con snapshot **semanal** (no diario), retenido 90 días.
-- **Sin Cross-Region Replication continua,**  decisión refinada respecto a lo mencionado como "ideal" en ADR-001 (ver sección de Alternativas).
+- **Sin Cross-Region Replication continua,**  decisión refinada respecto a lo mencionado como "ideal" en ADR-0001 (ver sección de Alternativas).
 
 ## Pilares de AWS Well-Architected Framework
 
@@ -60,7 +60,7 @@ políticas diferenciadas por criticidad de dato:
 | **AWS Backup centralizado con políticas diferenciadas** (elegida) | Un solo panel de control, políticas auditable, consistentes con la clasificación de datos del negocio | Requiere entender un servicio adicional (AWS Backup) más allá de las funciones nativas de cada servicio | Elegida: escala mejor a medida que el proyecto suma más lecciones (ej. cómputo en Lección 4) que también podrían necesitar backup |
 | Backups nativos por servicio, sin orquestador central (snapshots manuales de RDS + reglas de lifecycle de S3 por separado) | Más simple de entender inicialmente | Sin visibilidad unificada; políticas inconsistentes entre servicios; más difícil de auditar para cumplimiento | Descartada: no escala bien y dificulta demostrar cumplimiento normativo ante el negocio |
 | Herramienta de backup híbrida de terceros (Veeam/Commvault, mencionada en el manual para escenarios on-prem + cloud) | Un solo panel para on-premise y cloud a la vez | El ERP/WMS on-premise está explícitamente fuera de alcance de este proyecto; agregar licenciamiento de terceros no se justifica solo para el lado cloud | Descartada por alcance del proyecto |
-| Cross-Region Replication continua para **todo** (catálogo + transaccional) | RPO mínimo posible en ambos casos | Costo y complejidad innecesarios para el catálogo, que ya tolera RPO ≤ 24h y es re-sincronizable desde su fuente | Descartada para el catálogo — se reconsidera el "ideal" propuesto en ADR-001 con mejor criterio de costo/beneficio |
+| Cross-Region Replication continua para **todo** (catálogo + transaccional) | RPO mínimo posible en ambos casos | Costo y complejidad innecesarios para el catálogo, que ya tolera RPO ≤ 24h y es re-sincronizable desde su fuente | Descartada para el catálogo — se reconsidera el "ideal" propuesto en ADR-0001 con mejor criterio de costo/beneficio |
 
 ## Métricas de éxito
 
@@ -73,7 +73,7 @@ políticas diferenciadas por criticidad de dato:
 
 | Aspecto | Diseño ideal (producción) | Lo que se implementa/documenta en el Lab | Motivo de la brecha |
 |---|---|---|---|
-| Copia de backups en región secundaria | Copiar snapshots del backup vault a una región DR distinta | Diseñado y documentado, no desplegado | El Lab restringe a una única región (mismo motivo que ADR-001) |
+| Copia de backups en región secundaria | Copiar snapshots del backup vault a una región DR distinta | Diseñado y documentado, no desplegado | El Lab restringe a una única región (mismo motivo que ADR-0001) |
 | Backup Vault Lock (inmutabilidad WORM) | Activo para los backups de datos de pago, evitando eliminación incluso por un administrador | Configuración documentada, no aplicada | El rol `LabRole` no tiene permisos para configurar políticas de Vault Lock |
 | Prueba de restauración (restore drill) | Ejercicio trimestral programado, restaurando a un ambiente aislado | Documentado como runbook, no ejecutado en este proyecto | El tiempo de sesión del Lab (~4h) no permite un ciclo completo de prueba de restauración sin agotar el tiempo disponible para el resto del módulo |
 

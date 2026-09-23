@@ -1,4 +1,4 @@
-# ADR-008: Estrategia de administración y optimización de costos
+# ADR-0008: Estrategia de administración y optimización de costos
 
 **Estado:** Aceptado
 **Fecha:** 2026-08-27
@@ -11,11 +11,11 @@ uso muy distintos:
 
 | Componente | Patrón de uso | Lección |
 |---|---|---|
-| RDS PostgreSQL Multi-AZ | Continuo, 730 h/mes, sin variación estacional | ADR-002 |
-| Fargate — capacidad base (4 tareas) | Continuo, 730 h/mes | ADR-004 |
-| Fargate — capacidad CyberDay (36 tareas) | Estacional, ~20 h/mes, 4 veces al año | ADR-004 |
-| NAT Gateway, ALB | Continuo, pero no son recursos de cómputo elegibles para RI/SP | ADR-005 |
-| S3, CloudFront, SQS, SNS | Pago por uso, ya optimizado por diseño (Cap. 6-7) | ADR-001, 006, 007 |
+| RDS PostgreSQL Multi-AZ | Continuo, 730 h/mes, sin variación estacional | ADR-0002 |
+| Fargate — capacidad base (4 tareas) | Continuo, 730 h/mes | ADR-0004 |
+| Fargate — capacidad CyberDay (36 tareas) | Estacional, ~20 h/mes, 4 veces al año | ADR-0004 |
+| NAT Gateway, ALB | Continuo, pero no son recursos de cómputo elegibles para RI/SP | ADR-0005 |
+| S3, CloudFront, SQS, SNS | Pago por uso, ya optimizado por diseño (Cap. 6-7) | ADR-0001, 0006, 0007 |
 
 Según el material de esta lección, **Reserved Instances (RI)** y **Savings
 Plans (SP)** ofrecen descuentos significativos (hasta 72% y 66%
@@ -28,14 +28,14 @@ para tráfico estacional.
 Se aplica una estrategia de **compromiso selectivo**, no total:
 
 **Reserved Instance (RDS):**
-- RDS PostgreSQL Multi-AZ (ADR-002) se cubre con una **Reserved Instance a
+- RDS PostgreSQL Multi-AZ (ADR-0002) se cubre con una **Reserved Instance a
   1 año**, pago parcial adelantado.
 - Justificación: es el componente de mayor costo fijo del proyecto y su
   patrón de uso (24/7, sin variación) es exactamente el caso de uso que
   la tabla del material identifica para RI.
 
 **Compute Savings Plan (Fargate, solo capacidad base):**
-- Solo las **4 tareas de capacidad base** (ADR-004) se cubren con un
+- Solo las **4 tareas de capacidad base** (ADR-0004) se cubren con un
   Compute Savings Plan a 1 año.
 - La **capacidad CyberDay (36 tareas adicionales, ~20h/mes)** permanece
   **On-Demand**, sin compromiso, comprometer capacidad que se usa <3% del

@@ -3,7 +3,7 @@
 ## 1. Objetivo
 
 Documentar la implementación de **CloudFront** definida en
-**[ADR-006](../../adr/006-cdn-distribucion-contenido.md)**, y el cambio
+**[ADR-0006](../../adr/0006-cdn-distribucion-contenido.md)**, y el cambio
 concreto que esto implica en el flujo de lectura del catálogo diseñado en
 la Lección 1.
 
@@ -18,16 +18,16 @@ la Lección 1.
 | TTL de caché por defecto | 24 horas |
 | Estrategia de actualización | Cache-busting por `versionId` de S3 (no invalidación manual) |
 
-![Arquitectura Lección 6 - CDN](../../diagramas/exportados/06-disponibilidad-contenido-cdn.png)
+![Arquitectura Lección 6 - CDN](../../diagrams/export/06-disponibilidad-contenido-cdn.png)
 
 ## 3. Cambio en el flujo de lectura (vs. Lección 1)
 
-**Antes (ADR-001, solo S3):**
+**Antes (ADR-0001, solo S3):**
 1. Usuario solicita al Servicio de Catálogo una URL firmada (GET).
 2. El servicio genera la URL firmada, con expiración de 15 minutos.
 3. El usuario descarga el objeto directo desde S3.
 
-**Ahora (ADR-006, con CloudFront):**
+**Ahora (ADR-0006, con CloudFront):**
 1. El Servicio de Catálogo construye la URL pública de CloudFront
    directamente (ej. `https://cdn.adc.com/media/{product_id}/{filename}?v={versionId}`),
    sin necesidad de firma ni llamada a la API de S3 para generarla.
@@ -41,7 +41,7 @@ la Lección 1.
    Edge.
 
 **Lo que NO cambia:** el flujo de subida (CMS → presigned PUT → S3) definido
-en ADR-001 sigue exactamente igual. Este ADR solo modifica el lado de
+en ADR-0001 sigue exactamente igual. Este ADR solo modifica el lado de
 lectura.
 
 ## 4. Cache-busting por versión (evitar invalidaciones)
@@ -53,7 +53,7 @@ parámetro de consulta en la URL — por ejemplo, algo con la forma
 `https://cdn.adc.com/media/SKU-88213/imagen.jpg?v=3HL4kqCxf3v...`
 
 Cuando el CMS sube una nueva versión del archivo (versionado activo desde
-ADR-001), el `versionId` cambia, y como CloudFront trata una URL con
+ADR-0001), el `versionId` cambia, y como CloudFront trata una URL con
 parámetro de consulta distinto como un objeto de caché distinto, la
 próxima solicitud automáticamente golpea el origen y cachea la versión
 nueva, sin necesidad de invalidar nada manualmente. El objeto viejo
@@ -62,7 +62,7 @@ sirve mezclado, porque la URL de cada versión es única).
 
 ## 5. Seguridad: por qué OAC y no un bucket público
 
-Aunque el contenido se clasificó como "público" (ADR-006), el bucket S3
+Aunque el contenido se clasificó como "público" (ADR-0006), el bucket S3
 **no se hace público directamente,** se mantiene privado, y solo
 CloudFront (mediante OAC) tiene permiso para leerlo. La diferencia es
 sutil pero importante:
@@ -86,5 +86,5 @@ sigue controlada.
   (pasos 1-3) permanece sin cambios.
 - **Lección 5 (Disponibilidad de red):** el patrón de enrutamiento por ruta
   (`/media/*`, `/docs/*`) reutiliza la misma lógica de Capa 7 aplicada al
-  ALB en ADR-005, esta vez a nivel de CDN en vez de balanceador de tráfico
+  ALB en ADR-0005, esta vez a nivel de CDN en vez de balanceador de tráfico
   dinámico.

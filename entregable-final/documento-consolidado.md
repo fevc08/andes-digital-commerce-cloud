@@ -27,51 +27,51 @@ plantilla genérica, es la que sostiene cada decisión posterior.
 
 ## 3. Arquitectura por capas
 
-### 3.1 Almacenamiento de objetos ([ADR-001](../adr/001-tipo-almacenamiento-objetos.md))
+### 3.1 Almacenamiento de objetos ([ADR-0001](../adr/0001-tipo-almacenamiento-objetos.md))
 Catálogo en dos buckets S3 diferenciados por patrón de acceso: S3
 Intelligent-Tiering para medios (acceso impredecible por campañas) y S3
 Standard para documentos. Acceso desacoplado del backend mediante URLs
 firmadas para subida, refinado en la Lección 6 para lectura pública.
 
-### 3.2 Backup y recuperación ([ADR-002](../adr/002-estrategia-backup-recuperacion.md))
+### 3.2 Backup y recuperación ([ADR-0002](../adr/0002-estrategia-backup-recuperacion.md))
 AWS Backup centralizado con políticas diferenciadas: retención agresiva
 (12 meses, con transición a frío) para datos transaccionales por
 exigencia de auditoría financiera; retención simple (90 días) para el
 catálogo, evitando Cross-Region Replication innecesaria dado que es
 re-sincronizable.
 
-### 3.3 Modelo de nube híbrido ([ADR-003](../adr/003-modelo-nube-publica-privada-hibrida.md))
+### 3.3 Modelo de nube híbrido ([ADR-0003](../adr/0003-modelo-nube-publica-privada-hibrida.md))
 Aplicando el árbol de decisión del material: el ERP/WMS se queda
 on-premise (legacy no migrable en este horizonte), la plataforma
 e-commerce vive 100% en AWS. Conectados vía Site-to-Site VPN, con solo dos
 eventos de negocio cruzando el enlace, nunca datos financieros o de
 identidad corporativa.
 
-### 3.4 Escalabilidad de cómputo ([ADR-004](../adr/004-auto-scaling-computo.md))
+### 3.4 Escalabilidad de cómputo ([ADR-0004](../adr/0004-auto-scaling-computo.md))
 ECS + Fargate, elegido sobre EC2 y Lambda por el patrón de tráfico
 "continuo y variable" de ADC, arranque en segundos crítico durante el
 inicio súbito de un pico CyberDay. Target tracking sobre CPU, 2-20 tareas
 por AZ.
 
-### 3.5 Disponibilidad de red ([ADR-005](../adr/005-balanceo-carga-multi-az.md))
+### 3.5 Disponibilidad de red ([ADR-0005](../adr/0005-balanceo-carga-multi-az.md))
 Application Load Balancer (Capa 7, Least Outstanding Requests) + NAT
-Gateway, completando el diseño de red iniciado en ADR-003. Trade-off de
+Gateway, completando el diseño de red iniciado en ADR-0003. Trade-off de
 NAT Gateway único (vs. 2 ideales) documentado explícitamente como
 restricción del Lab.
 
-### 3.6 Disponibilidad de contenido ([ADR-006](../adr/006-cdn-distribucion-contenido.md))
+### 3.6 Disponibilidad de contenido ([ADR-0006](../adr/0006-cdn-distribucion-contenido.md))
 CloudFront + Origin Access Control, tras clasificar el catálogo como
 contenido público, decisión que revisó y mejoró el diseño original de
-ADR-001, reemplazando URLs firmadas de lectura por acceso público
+ADR-0001, reemplazando URLs firmadas de lectura por acceso público
 cacheable, reduciendo latencia hacia los 3 países de operación.
 
-### 3.7 Mensajería asíncrona ([ADR-007](../adr/007-mensajeria-asincrona-colas.md))
+### 3.7 Mensajería asíncrona ([ADR-0007](../adr/0007-mensajeria-asincrona-colas.md))
 Dos mecanismos, cada uno según la naturaleza del evento: SQS FIFO (cola de
 trabajo) para "pedido confirmado", exactamente un consumidor, sin
 duplicados; SNS→SQS (pub/sub) para "actualización de stock", abierto a
 futuros suscriptores sin modificar al productor.
 
-### 3.8 Administración de costos ([ADR-008](../adr/008-estrategia-costos.md))
+### 3.8 Administración de costos ([ADR-0008](../adr/0008-estrategia-costos.md))
 Compromiso financiero selectivo: Reserved Instance para RDS y Compute
 Savings Plan solo para la capacidad base de Fargate, nunca para la
 capacidad estacional de CyberDay. Monitoreo vía AWS Budgets + CloudWatch +
@@ -79,7 +79,7 @@ Cost Explorer con tags.
 
 ## 4. Diagrama de arquitectura integrado
 
-*(Ver [`diagramas/exportados/entregable-final.png`](../diagramas/exportados/entregable-final.png), diagrama único que consolida las 8 capas anteriores, construido en el
+*(Ver [`diagrams/export/entregable-final.png`](../diagrams/export/entregable-final.png), diagrama único que consolida las 8 capas anteriores, construido en el
 siguiente paso de este cierre de proyecto.)*
 
 ## 5. Estimación total de costos y análisis de eficiencia

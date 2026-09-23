@@ -13,8 +13,8 @@
 | Modelo de precio | Pay as you go (no Flat Rate, ver justificación abajo) |
 | Solicitudes HTTPS | 55.000/mes (mismo volumen base de la Lección 1) |
 | Datos transferidos a usuarios | 35 GB/mes |
-| Datos transferidos hacia el origen (POST/PUT) | 0 GB, el flujo de subida no pasa por CloudFront (ADR-006) |
-| Invalidaciones manuales | 0, cache-busting por versión (ADR-006) |
+| Datos transferidos hacia el origen (POST/PUT) | 0 GB, el flujo de subida no pasa por CloudFront (ADR-0006) |
+| Invalidaciones manuales | 0, cache-busting por versión (ADR-0006) |
 
 ## Por qué "Pay as you go" y no un plan Flat Rate
 
@@ -22,7 +22,7 @@ Los planes Flat Rate de CloudFront cobran un monto fijo mensual sin importar
 el cache hit ratio real. Eso anularía la posibilidad de demostrar
 numéricamente la eficiencia del diseño — con Pay as you go, el costo *sí*
 refleja qué tan bien está funcionando el cacheo, que es precisamente la
-métrica de éxito (≥85% cache hit ratio) definida en ADR-006.
+métrica de éxito (≥85% cache hit ratio) definida en ADR-0006.
 
 ## Resultado de la calculadora
 

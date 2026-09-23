@@ -3,7 +3,7 @@
 ## 1. Objetivo
 
 Documentar la implementación concreta de los dos mecanismos de mensajería
-definidos en **[ADR-007](../../adr/007-mensajeria-asincrona-colas.md)**, y
+definidos en **[ADR-0007](../../adr/0007-mensajeria-asincrona-colas.md)**, y
 cómo se comportan ante escenarios de falla, que es, en la práctica, la
 razón de ser de la mensajería asíncrona.
 
@@ -67,24 +67,24 @@ que el WMS conociera y escribiera a cada nuevo consumidor individualmente,
 acoplando al productor con el crecimiento futuro del sistema — justo lo que
 la mensajería asíncrona busca evitar.
 
-![Arquitectura Lección 7 — Mensajería Asíncrona](../../diagramas/exportados/07-mensajeria-asincrona.png)
+![Arquitectura Lección 7 — Mensajería Asíncrona](../../diagrams/export/07-mensajeria-asincrona.png)
 
 ## 4. Monitoreo operativo
 
 Ambos mecanismos exponen la métrica `ApproximateAgeOfOldestMessage` a
 CloudWatch. Una alarma se dispara si supera los **5 minutos** definidos en
-ADR-007, una señal de que el consumidor correspondiente (WMS o Servicio de
+ADR-0007, una señal de que el consumidor correspondiente (WMS o Servicio de
 Sincronización) dejó de procesar al ritmo esperado, sin necesidad de
 esperar a que un cliente reporte un problema.
 
 ## 5. Relación con otras lecciones
 
 - **Lección 3 (Modelo híbrido):** este informe formaliza el mecanismo
-  interno que ADR-003 dejó pendiente para los dos eventos que cruzan el
+  interno que ADR-0003 dejó pendiente para los dos eventos que cruzan el
   enlace VPN.
 - **Lección 4 (Escalabilidad de cómputo):** el material de esta lección
   describe un patrón alternativo (Auto Scaling reactivo a profundidad de
-  cola SQS). ADC no lo adopta, ADR-004 ya define el escalado de Fargate
+  cola SQS). ADC no lo adopta, ADR-0004 ya define el escalado de Fargate
   en base a CPU, que es la métrica correcta para la capa de cómputo web;
   la cola de esta lección tiene un propósito distinto (integración con el
   WMS, no absorber tráfico de usuarios).
